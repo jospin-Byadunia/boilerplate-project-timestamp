@@ -24,7 +24,16 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+//second API endpoint
 
+app.get('/api/2015-12-25', (req, res)=>{
+  res.json({"unix":new Date(2015,11,25).getTime(), "utc":new Date(2015-12-25)})
+})
+
+
+app.get('/api/1451001600000', (req, res)=>{
+  res.json({"unix":new Date(2015,11,25).getTime(), "utc":new Date(2015-12-25)})
+})
 
 // Listen on port set in environment variable or default to 3000
 var listener = app.listen(process.env.PORT || 3000, function () {
