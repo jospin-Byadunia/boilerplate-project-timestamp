@@ -13,6 +13,12 @@ app.use(express.json());
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
+
+    
+//   }
+//   next()
+// })
+
 // http://expressjs.com/en/starter/basic-routing.html
 app.get("/", function (req, res) {
   res.sendFile(__dirname + '/views/index.html');
@@ -46,6 +52,11 @@ app.get('/api/:content', (req, res)=>{
   }
    
   
+})
+
+app.get('/api/', (req, res)=>{
+  const now = new Date();
+  res.json({"unix":now.getTime(), "utc":now.toUTCString()})
 })
 
 
