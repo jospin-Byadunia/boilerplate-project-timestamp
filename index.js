@@ -9,7 +9,7 @@ var app = express();
 // so that your API is remotely testable by FCC 
 var cors = require('cors');
 app.use(cors({optionsSuccessStatus: 200}));  // some legacy browsers choke on 204
-
+app.use(express.json());
 // http://expressjs.com/en/starter/static-files.html
 app.use(express.static('public'));
 
@@ -26,14 +26,28 @@ app.get("/api/hello", function (req, res) {
 
 //second API endpoint
 
-app.get('/api/2015-12-25', (req, res)=>{
-  res.json({"unix":new Date(2015,11,25).getTime(), "utc":new Date(2015-12-25)})
+app.get('/api/:content', (req, res)=>{
+  const {content} = req.params;
+  if(!Number(content) && new Date(content).toUTCString()!=="Invalid Date"){
+  const dateContent = new Date(content);
+  const timestamp = dateContent.getTime();
+  const formatedDate = dateContent.toUTCString();
+
+  res.json({"unix":timestamp, "utc":formatedDate})
+  }
+  else if(Number(content) && new Date(Number(content)).getTime()===Number(content)){
+    const dateContent = new Date(Number(content));
+    const formatedDate = dateContent.toUTCString();
+    res.json({"unix":Number(content), "utc":formatedDate})
+
+  }
+  else{
+    res.json({error:"Invalid Date"})
+  }
+   
+  
 })
 
-
-app.get('/api/1451001600000', (req, res)=>{
-  res.json({"unix":new Date(2015,11,25).getTime(), "utc":new Date(2015-12-25)})
-})
 
 // Listen on port set in environment variable or default to 3000
 var listener = app.listen(process.env.PORT || 3000, function () {
